@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+
+function atualiza_sistema {
+  echo "     "
+  echo "Atualizando (update)....."
+  echo "  "
+  sudo apt-get update
+ 
+  echo "     "
+  echo "Atualizando (upgrade) ......."
+  echo "  "
+  sudo apt-get upgrade
+  
+  echo "     "
+  echo "Atualizando (rpi)....."
+  echo "  "
+  sudo rpi-update
+  
+  echo "     "
+  echo "Fim das atualizacoes passando para dependencias"
+  echo "  "
+}
+
+function instala_dependencias{
+
+  echo "     "
+  echo "Instalando dependencias - 5 passos"
+  echo "  "
+  
+  echo "     "
+  echo "Instalando dependencias - 1 passos"
+  echo "  "
+  sudo apt-get install build-essential cmake pkg-config -y
+  echo "     "
+  echo "Instalando dependencias - 2 passos"
+  echo "  "
+  sudo apt-get install libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev
+  echo "     "
+  echo "Instalando dependencias - 3 passos"
+  echo "  "
+  sudo apt-get install libgtk2.0-dev
+  echo "     "
+  echo "Instalando dependencias - 4 passos"
+  echo "  "
+  sudo apt-get install libgtk2.0-dev
+  echo "     "
+  echo "Instalando dependencias - 5 passos"
+  echo "  "
+  sudo apt-get install libatlas-base-dev gfortran
+
+  echo "     "
+  echo "Instalando dependencias - Finalizado"
+  echo "  "
+}
+  
+function instala_pip {
+  echo "     "
+  echo "Instalando PiP e Python 2.7"
+  echo "  "
+  wget https://bootstrap.pypa.io/get-pip.py
+  sudo python get-pip.py  
+  sudo pip install virtualenv virtualenvwrapper
+  sudo apt-get install python2.7-dev -y
+  pip install numpy
+  pip install python-telegram-bot
+  pip install pyTelegramBotAPI
+  pip install TwitterAPI
+  pip install tweepy
+  #--upgrade
+  
+}
+
+function instala_OpenCV{
+  echo "     "
+  echo "Baixando o OpenCV"
+  echo "  "
+  wget -O opencv-2.4.10.zip http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.4.10/opencv-2.4.10.zip/download
+  unzip opencv-2.4.10.zip
+  cd opencv-2.4.10  
+
+  echo "     "
+  echo "Preparacao para compilacao do OpenCV"
+  echo "  "
+  mkdir build
+  cd build
+  cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D BUILD_NEW_PYTHON_SUPPORT=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON  -D BUILD_EXAMPLES=ON ..
+
+  echo "     "
+  echo "Compilacao e instalacao do OpenCV"
+  echo "  "
+  make
+  sudo make install
+  sudo ldconfig
+
+  echo "     "
+  echo "fim da compilacao e instalacao do OpenCV"
+  echo "  "
+}
+
+function prepara_ambiente{
+  cd ~/.virtualenvs/cv/lib/python2.7/site-packages/
+  sudo ln -s /usr/local/lib/python2.7/site-packages/cv2.so cv2.so
+  sudo ln -s /usr/local/lib/python2.7/site-packages/cv.py cv.py
+}
+
+
+atualiza_sistema
+instala_dependencias
+instala_pip
+instala_OpenCV
+prepara_ambiente
