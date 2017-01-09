@@ -34,19 +34,19 @@ function instala_dependencias{
   echo "     "
   echo "Instalando dependencias - 2 passos"
   echo "  "
-  sudo apt-get install libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev
+  sudo apt-get install libjpeg8-dev libtiff4-dev libjasper-dev libpng12-dev -y
   echo "     "
   echo "Instalando dependencias - 3 passos"
   echo "  "
-  sudo apt-get install libgtk2.0-dev
+  sudo apt-get install libgtk2.0-dev -y
   echo "     "
   echo "Instalando dependencias - 4 passos"
   echo "  "
-  sudo apt-get install libgtk2.0-dev
+  sudo apt-get install libgtk2.0-dev -y
   echo "     "
   echo "Instalando dependencias - 5 passos"
   echo "  "
-  sudo apt-get install libatlas-base-dev gfortran
+  sudo apt-get install libatlas-base-dev gfortran -y
 
   echo "     "
   echo "Instalando dependencias - Finalizado"
