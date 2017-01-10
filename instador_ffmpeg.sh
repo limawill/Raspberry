@@ -1,8 +1,15 @@
 #!/bin/bash
 
 function adiciona_repositorios {
+  echo "     "
+  echo "Instalando repositorio multimedia (update)....."
+  echo "  "
   sudo echo "deb http://www.deb-multimedia.org jessie main non-free" >>  /etc/apt/sources.list
   sudo echo "deb-src http://www.deb-multimedia.org jessie main non-free" >>  /etc/apt/sources.list
+  echo "     "
+  echo "Instalando chave dos repositorios (update)....."
+  echo "  "
+  sudo apt-get install deb-multimedia-keyring
 }
 
 function atualiza_sistema {
@@ -14,12 +21,12 @@ function atualiza_sistema {
   echo "     "
   echo "Atualizando (upgrade) ......."
   echo "  "
-  sudo apt-get upgrade
+  sudo apt-get upgrade -y
   
   echo "     "
   echo "Atualizando (rpi)....."
   echo "  "
-  sudo rpi-update
+  sudo rpi-update -y
   
   echo "     "
   echo "Fim das atualizacoes passando para dependencias"
@@ -31,10 +38,9 @@ function install_build_tools {
   echo "     "
   echo "Instalando dependencias sistema"
   echo "  "
-  sudo apt-get install deb-multimedia-keyring
   sudo apt-get update
-  sudo apt-get remove ffmpeg
-  sudo apt-get install build-essential libmp3lame-dev libvorbis-dev libtheora-dev libspeex-dev yasm pkg-config libfaac-dev libopenjpeg-dev libx264-dev
+  sudo apt-get remove ffmpeg -y
+  sudo apt-get install build-essential libmp3lame-dev libvorbis-dev libtheora-dev libspeex-dev yasm pkg-config libfaac-dev libopenjpeg-dev libx264-dev -y
 }
 
 
