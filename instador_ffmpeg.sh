@@ -9,7 +9,7 @@ function adiciona_repositorios {
   echo "     "
   echo "Instalando chave dos repositorios (update)....."
   echo "  "
-  sudo apt-get install deb-multimedia-keyring
+  sudo apt-get install deb-multimedia-keyring -y
 }
 
 function atualiza_sistema {
