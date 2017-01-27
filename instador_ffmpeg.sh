@@ -1,17 +1,5 @@
 #!/bin/bash
 
-function adiciona_repositorios {
-  echo "     "
-  echo "Instalando repositorio multimedia (update)....."
-  echo "  "
-  sudo echo "deb http://www.deb-multimedia.org jessie main non-free" >>  /etc/apt/sources.list
-  sudo echo "deb-src http://www.deb-multimedia.org jessie main non-free" >>  /etc/apt/sources.list
-  echo "     "
-  echo "Instalando chave dos repositorios (update)....."
-  echo "  "
-  sudo apt-get install deb-multimedia-keyring -y
-}
-
 function atualiza_sistema {
   echo "     "
   echo "Atualizando (update)....."
@@ -36,41 +24,48 @@ function atualiza_sistema {
 function install_build_tools {
 
   echo "     "
-  echo "Instalando dependencias sistema"
+  echo "Instalando videolan no sistema"
   echo "  "
-  sudo apt-get update
-  sudo apt-get remove ffmpeg -y
-  sudo apt-get install build-essential libmp3lame-dev libvorbis-dev libtheora-dev libspeex-dev yasm pkg-config libfaac-dev libopenjpeg-dev libx264-dev -y
-}
+ 
+  cd /usr/src
+  git clone git://git.videolan.org/x264
+  cd x264
+  echo "     "
+  echo "Configurando pacotes sistema"
+  echo "  "
+  ./configure --host=arm-unknown-linux-gnueabi --enable-static --disable-opencl
+  make
+  echo "     "
+  echo "Instalando ........"
+  echo "  "
+  sudo make install
+
+  echo "     "
+  echo "Fim da instacacao Videolan"
+  echo "  "
+  }
 
 
 function baixando_ffmpeg {
 	
   echo "Baixando ffmpeg....."
-  mkdir software
-  cd software
-  wget http://ffmpeg.org/releases/ffmpeg-2.7.2.tar.bz2
-  cd ..
-  mkdir src
-  cd src
-  tar xvjf ../software/ffmpeg-2.7.2.tar.bz2
-}
-
-function compilacao_utilizacao {
-	
-  echo "Compilando ffmpeg....."
-  cd ffmpeg- 2.7.2
-  ./configure --enable-gpl --enable-postproc --enable-swscale --enable-avfilter --enable-libmp3lame --enable-libvorbis --enable-libtheora --enable-libx264 --enable-libspeex - permitam-compartilhada --enable-pthreads --enable-libopenjpeg --enable-libfaac --enable-nonfree 
-  make 
+  cd /usr/src
+  git clone https://github.com/FFmpeg/FFmpeg.git
+  cd ffmpeg
+  echo "     "
+  echo "Configurando pacotes sistema"
+  echo "  "
+  sudo ./configure --arch=armel --target-os=linux --enable-gpl --enable-libx264 --enable-nonfree
+  echo "     "
+  echo "Instalando ........"
+  echo "  "
+  make
   sudo make install
-
-  echo "Executando ....."
-  sudo /sbin/ldconfig
-  
 }
 
-adiciona_repositorios
+
+
 atualiza_sistema
 install_build_tools
 baixando_ffmpeg
-compilacao_utilizacao
+
